@@ -50,24 +50,25 @@ aptamer-discovery-pipeline/
 │   ├── data/
 │   ├── weights/
 │   ├── training_results/
-│   ├── seq_gen.py
-│   ├── seq_gen_dna.py
+│   ├── dna_seq_gen.py
+│   ├── rna_seq_gen.py
 │   ├── metrics.py
 │   └── README.md
 │
 ├── aptamer-validation/          # In silico validation pipeline
-│   ├── block1_ml_screening/
-│   ├── block2_protein_folding/
-│   ├── block3_secondary_structure/
-│   ├── block4_3d_modeling/
-│   ├── block5_docking/
-│   ├── block6_md_simulation/
+│   ├── docking_candidates/
+│   ├── docking_results/
+│   ├── mdp/
+│   ├── scripts/
+│   ├── 2D_aptamer_prediction.py
+│   ├── Snakefile
+│   ├── apipred_benchmark.py
+│   ├── aptanet_benchmark.py
+│   ├── aptatrans_benchmark.py
+│   ├── preprocess_and_split.py
+│   ├── retract_and_fold.py
+│   ├── run_benchmarks_and_consensus.py
 │   └── README.md
-│
-├── results/                     # Final ranked candidates
-│   ├── generated_sequences.csv
-│   ├── docking_scores.csv
-│   └── md_stability.csv
 │
 └── README.md                    # This file
 ```
