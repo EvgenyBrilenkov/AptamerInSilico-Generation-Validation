@@ -1,6 +1,7 @@
-import sys
 import os
 import subprocess
+import sys
+
 
 def run_strict_prep(input_pdb, output_prot, output_rna, output_ss):
     input_pdb = os.path.abspath(input_pdb)
@@ -19,31 +20,78 @@ def run_strict_prep(input_pdb, output_prot, output_rna, output_ss):
     awk_parse_ss = os.path.join(work_dir, "parse_ss.awk")
 
     try:
-        cmd_extract = f"awk '/^MODEL/{{p=1}} p{{print}} /^ENDMDL/{{exit}}' '{input_pdb}' > '{temp_model}'"
+        cmd_extract = (
+            f"awk '/^MODEL/{{p=1}} p{{print}} /^ENDMDL/{{exit}}' '{input_pdb}' > '{temp_model}'"
+        )
         subprocess.run(cmd_extract, shell=True, check=True)
         if os.path.getsize(temp_model) < 100:
             subprocess.run(f"cp '{input_pdb}' '{temp_model}'", shell=True, check=True)
 
-        PROT_NAMES = {"ALA","ARG","ASN","ASP","CYS","GLN",
-                      "GLU","GLY","HIS","ILE","LEU","LYS",
-                      "MET","PHE","PRO","SER","THR","TRP",
-                      "TYR","VAL","HIP","HIE","HID","HSP",
-                      "CYX","GLH","ASH","LYN"}
-        
-        RNA_NAMES = {"A","G","C","U","DA","DG","DC","DT",
-                     "RA","RG","RC","RU","ADE","GUA","CYT",
-                     "URA","THY"}
+        PROT_NAMES = {
+            "ALA",
+            "ARG",
+            "ASN",
+            "ASP",
+            "CYS",
+            "GLN",
+            "GLU",
+            "GLY",
+            "HIS",
+            "ILE",
+            "LEU",
+            "LYS",
+            "MET",
+            "PHE",
+            "PRO",
+            "SER",
+            "THR",
+            "TRP",
+            "TYR",
+            "VAL",
+            "HIP",
+            "HIE",
+            "HID",
+            "HSP",
+            "CYX",
+            "GLH",
+            "ASH",
+            "LYN",
+        }
 
-        with open(temp_model, 'r') as f_in, open(temp_prot_raw, 'w') as f_p, open(temp_rna_raw, 'w') as f_r:
+        RNA_NAMES = {
+            "A",
+            "G",
+            "C",
+            "U",
+            "DA",
+            "DG",
+            "DC",
+            "DT",
+            "RA",
+            "RG",
+            "RC",
+            "RU",
+            "ADE",
+            "GUA",
+            "CYT",
+            "URA",
+            "THY",
+        }
+
+        with open(temp_model) as f_in, open(temp_prot_raw, "w") as f_p, open(
+            temp_rna_raw, "w"
+        ) as f_r:
             for line in f_in:
                 if line.startswith(("ATOM", "HETATM")):
                     res = line[17:20].strip().upper()
-                    if res in PROT_NAMES: f_p.write(line)
-                    elif res in RNA_NAMES: f_r.write(line)
+                    if res in PROT_NAMES:
+                        f_p.write(line)
+                    elif res in RNA_NAMES:
+                        f_r.write(line)
 
         current_old_id = None
         new_id = 0
-        with open(temp_prot_raw, 'r') as f_in, open(temp_prot_renum, 'w') as f_out:
+        with open(temp_prot_raw) as f_in, open(temp_prot_renum, "w") as f_out:
             for line in f_in:
                 old_id = line[22:26].strip()
                 if old_id != current_old_id:
@@ -51,11 +99,16 @@ def run_strict_prep(input_pdb, output_prot, output_rna, output_ss):
                     current_old_id = old_id
 
                 res = line[17:20].strip().upper()
-                if res in ["HIP", "HIE", "HID", "HSP"]: res = "HIS"
-                elif res == "CYX": res = "CYS"
-                elif res == "GLH": res = "GLU"
-                elif res == "ASH": res = "ASP"
-                elif res == "LYN": res = "LYS"
+                if res in ["HIP", "HIE", "HID", "HSP"]:
+                    res = "HIS"
+                elif res == "CYX":
+                    res = "CYS"
+                elif res == "GLH":
+                    res = "GLU"
+                elif res == "ASH":
+                    res = "ASP"
+                elif res == "LYN":
+                    res = "LYS"
 
                 prefix = line[:17] + f"{res:3}" + line[20:22] + f"{new_id:4}" + line[26:54]
                 atom_name = line[12:16].replace(" ", "")
@@ -65,12 +118,13 @@ def run_strict_prep(input_pdb, output_prot, output_rna, output_ss):
 
         header = "HEADER    PREDICTED MODEL ESMFOLD/HDOCK      14-NOV-25   PROT   \n"
         cryst1 = "CRYST1   10.000   10.000   10.000  90.00  90.00  90.00 P 1           1\n"
-        with open(output_prot, 'w') as f:
+        with open(output_prot, "w") as f:
             f.write(header + cryst1)
-            with open(temp_prot_renum, 'r') as body: f.write(body.read())
+            with open(temp_prot_renum) as body:
+                f.write(body.read())
             f.write("ENDMDL\n")
 
-        with open(temp_rna_raw, 'r') as f_in, open(output_rna, 'w') as f_out:
+        with open(temp_rna_raw) as f_in, open(output_rna, "w") as f_out:
             for line in f_in:
                 f_out.write(f"{line[:54]:54}  1.00 25.00\n")
             f_out.write("END\n")
@@ -87,15 +141,28 @@ start==1 {
     printf "%s", ss
 }
 """
-        with open(awk_parse_ss, "w") as f: f.write(awk_ss_content)
-        subprocess.run(f"awk -f '{awk_parse_ss}' '{dssp_file}' > '{output_ss}'", shell=True, check=True)
+        with open(awk_parse_ss, "w") as f:
+            f.write(awk_ss_content)
+        subprocess.run(
+            f"awk -f '{awk_parse_ss}' '{dssp_file}' > '{output_ss}'", shell=True, check=True
+        )
 
     except Exception as e:
         print(f"ERROR: {e}")
         sys.exit(1)
     finally:
-        for f in [temp_model, temp_prot_raw, temp_rna_raw, temp_prot_renum, dssp_file, awk_fix_script, awk_parse_ss]:
-            if os.path.exists(f): os.remove(f)
+        for f in [
+            temp_model,
+            temp_prot_raw,
+            temp_rna_raw,
+            temp_prot_renum,
+            dssp_file,
+            awk_fix_script,
+            awk_parse_ss,
+        ]:
+            if os.path.exists(f):
+                os.remove(f)
+
 
 if __name__ == "__main__":
     run_strict_prep(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])

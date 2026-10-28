@@ -1,5 +1,6 @@
-import sys
 import os
+import sys
+
 
 def clean_and_rename_itp(input_file, output_file, new_name="protein"):
     """
@@ -11,7 +12,7 @@ def clean_and_rename_itp(input_file, output_file, new_name="protein"):
         sys.exit(1)
 
     lines = []
-    with open(input_file, 'r') as f:
+    with open(input_file) as f:
         lines = f.readlines()
 
     final_lines = []
@@ -19,7 +20,11 @@ def clean_and_rename_itp(input_file, output_file, new_name="protein"):
     found_moleculetype = False
 
     for line in lines:
-        if line.startswith("#include") or line.startswith("[ system ]") or line.startswith("[ molecules ]"):
+        if (
+            line.startswith("#include")
+            or line.startswith("[ system ]")
+            or line.startswith("[ molecules ]")
+        ):
             continue
 
         if line.strip().startswith("[ moleculetype ]"):
@@ -31,15 +36,16 @@ def clean_and_rename_itp(input_file, output_file, new_name="protein"):
             if line.strip() and not line.strip().startswith(";"):
                 parts = line.split()
                 parts[0] = new_name
-                final_lines.append(f"{parts[0]:10} {parts[1] if len(parts)>1 else '3'}\n")
+                final_lines.append(f"{parts[0]:10} {parts[1] if len(parts) > 1 else '3'}\n")
                 found_moleculetype = False
                 continue
 
         final_lines.append(line)
 
-    with open(output_file, 'w') as f:
+    with open(output_file, "w") as f:
         f.writelines(final_lines)
     print(f"SUCCESS: {input_file} converted to {output_file} with name '{new_name}'")
+
 
 if __name__ == "__main__":
     if len(sys.argv) < 3:

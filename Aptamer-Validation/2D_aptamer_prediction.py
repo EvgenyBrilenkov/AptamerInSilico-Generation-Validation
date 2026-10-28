@@ -1,7 +1,8 @@
 import subprocess
 from pathlib import Path
-from tqdm import tqdm
+
 import pandas as pd
+from tqdm import tqdm
 
 docking_dir = Path("./docking_candidates")
 candidates_csv_path = docking_dir / "candidates_for_docking.csv"
@@ -18,7 +19,7 @@ successful_count = 0
 failed_count = 0
 
 for _, row in tqdm(candidates_df.iterrows(), total=len(candidates_df), desc="RNAfold"):
-    candidate_id = row['candidate_id']
+    candidate_id = row["candidate_id"]
     candidate_dir = docking_dir / candidate_id
     aptamer_fasta = candidate_dir / "aptamer.fasta"
     aptamer_ss = candidate_dir / "aptamer.ss"
@@ -32,9 +33,9 @@ for _, row in tqdm(candidates_df.iterrows(), total=len(candidates_df), desc="RNA
         failed_count += 1
         continue
     try:
-        with open(aptamer_fasta, 'r') as f:
+        with open(aptamer_fasta) as f:
             lines = f.readlines()
-            seq = "".join(line.strip() for line in lines if not line.startswith('>'))
+            seq = "".join(line.strip() for line in lines if not line.startswith(">"))
     except Exception as e:
         print(f"  [ОШИБКА] Чтение {aptamer_fasta}: {e}")
         failed_count += 1
@@ -46,7 +47,7 @@ for _, row in tqdm(candidates_df.iterrows(), total=len(candidates_df), desc="RNA
         continue
 
     # DNA → RNA
-    rna_seq = seq.upper().replace('T', 'U')
+    rna_seq = seq.upper().replace("T", "U")
 
     # Подготовка входа для RNAfold
     input_data = f">{candidate_id}\n{rna_seq}\n"
@@ -58,7 +59,7 @@ for _, row in tqdm(candidates_df.iterrows(), total=len(candidates_df), desc="RNA
             capture_output=True,
             check=True,
             text=True,
-            timeout=60
+            timeout=60,
         )
 
         with open(aptamer_ss, "w") as f:
@@ -89,12 +90,12 @@ for _, row in tqdm(candidates_df.iterrows(), total=len(candidates_df), desc="RNA
         failed_count += 1
 
 # Итог
-print("\n" + "="*60)
+print("\n" + "=" * 60)
 print("ПРЕДСКАЗАНИЕ 2D-СТРУКТУР ЗАВЕРШЕНО")
 print(f"  Успешно: {successful_count}")
 print(f"  Пропущено (уже есть): {len(candidates_df) - successful_count - failed_count}")
 print(f"  Ошибки: {failed_count}")
-print("="*60)
+print("=" * 60)
 
 with open("block3.done", "w") as f:
     f.write("2D structures predicted\n")
