@@ -1,12 +1,13 @@
+import random
+
+import numpy as np
+import pandas as pd
 import torch
 import torch.nn as nn
 import torch.nn.functional as F
 import torch.optim as optim
+from metrics import compute_avg_levenshtein, compute_gc_mean, compute_mfe
 from torch.utils.data import DataLoader, Dataset
-import numpy as np
-import random
-import pandas as pd
-from metrics import compute_gc_mean, compute_mfe, compute_avg_levenshtein
 
 
 # ------------------------
@@ -18,6 +19,7 @@ def set_seed(seed=42):
     np.random.seed(seed)
     random.seed(seed)
 
+
 set_seed(42)
 
 
@@ -25,9 +27,9 @@ set_seed(42)
 # Config
 # ------------------------
 SEQ_LEN = 80
-VOCAB = ['A', 'C', 'G', 'T', 'X']
-V2I = {c:i for i,c in enumerate(VOCAB)}
-I2V = {i:c for i,c in enumerate(VOCAB)}
+VOCAB = ["A", "C", "G", "T", "X"]
+V2I = {c: i for i, c in enumerate(VOCAB)}
+I2V = {i: c for i, c in enumerate(VOCAB)}
 
 LOG_FILE = "training_results/dna_generation_results.txt"
 VOCAB_SIZE = len(VOCAB)
@@ -41,7 +43,7 @@ DEVICE = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 # ------------------------
 def seq_to_onehot(seq):
     seq = list(seq[:SEQ_LEN])
-    seq += ['X'] * (SEQ_LEN - len(seq))
+    seq += ["X"] * (SEQ_LEN - len(seq))
 
     x = np.zeros((SEQ_LEN, VOCAB_SIZE), dtype=np.float32)
     for i, c in enumerate(seq):
@@ -50,14 +52,14 @@ def seq_to_onehot(seq):
 
 
 def cut_at_X(seq):
-    return seq.split('X')[0] if 'X' in seq else seq
+    return seq.split("X")[0] if "X" in seq else seq
 
 
 def decode(batch):
     idxs = torch.argmax(batch, dim=-1)
     out = []
     for row in idxs:
-        s = ''.join(I2V[i.item()] for i in row)
+        s = "".join(I2V[i.item()] for i in row)
         out.append(cut_at_X(s))
     return out
 
@@ -104,16 +106,12 @@ class Generator(nn.Module):
             nn.Upsample(scale_factor=2),
             nn.Conv1d(128, 64, 3, padding=1),
             nn.ReLU(),
-
             nn.Upsample(scale_factor=2),
             nn.Conv1d(64, 32, 3, padding=1),
             nn.ReLU(),
         )
 
-        self.res = nn.Sequential(
-            ResBlock(32),
-            ResBlock(32)
-        )
+        self.res = nn.Sequential(ResBlock(32), ResBlock(32))
 
         self.out = nn.Conv1d(32, VOCAB_SIZE, 1)
 
@@ -136,10 +134,8 @@ class Critic(nn.Module):
         self.net = nn.Sequential(
             nn.Conv1d(VOCAB_SIZE, 64, 5, padding=2),
             nn.LeakyReLU(0.2),
-
             nn.Conv1d(64, 128, 5, stride=2, padding=2),
             nn.LeakyReLU(0.2),
-
             nn.Conv1d(128, 256, 5, stride=2, padding=2),
             nn.LeakyReLU(0.2),
         )
@@ -163,10 +159,7 @@ def gradient_penalty(D, real, fake):
     d = D(inter)
 
     g = torch.autograd.grad(
-        outputs=d,
-        inputs=inter,
-        grad_outputs=torch.ones_like(d),
-        create_graph=True
+        outputs=d, inputs=inter, grad_outputs=torch.ones_like(d), create_graph=True
     )[0]
 
     g = g.reshape(g.size(0), -1)
@@ -181,7 +174,7 @@ def kmer(batch, k):
     outs = []
 
     for i in range(L - k + 1):
-        w = batch[:, i:i+k, :].reshape(B, -1)
+        w = batch[:, i : i + k, :].reshape(B, -1)
         outs.append(w)
 
     return torch.stack(outs, dim=1).mean(dim=1)
@@ -205,11 +198,13 @@ def compute_metrics(real, fake):
     length = np.mean([len(s) for s in fake])
     return gc, mfe, lev, length
 
+
 def compute_real_metrics(real_seqs):
     gc = compute_gc_mean(real_seqs)
     mfe = np.nanmean(compute_mfe(real_seqs))
     length = np.mean([len(s) for s in real_seqs])
     return gc, mfe, length
+
 
 # ------------------------
 # Training step
@@ -250,22 +245,25 @@ def train_step(G, D, loader, opt_g, opt_d, tau):
 
         ent = entropy(fake)
 
-        loss_g = adv + 2*k2 + 5*k3 - 0.05*ent
+        loss_g = adv + 2 * k2 + 5 * k3 - 0.05 * ent
 
         opt_g.zero_grad()
         loss_g.backward()
         opt_g.step()
 
+
 def log_epoch(f, text):
     f.write(text + "\n")
     f.flush()
+
+
 # ------------------------
 # MAIN
 # ------------------------
 if __name__ == "__main__":
     df = pd.read_csv("train_dna_dataset.csv")
-    df = df.drop_duplicates(subset=['apt_seq'], keep='first')
-    df = df[~df['apt_seq'].str.contains('U', na=False)]
+    df = df.drop_duplicates(subset=["apt_seq"], keep="first")
+    df = df[~df["apt_seq"].str.contains("U", na=False)]
     seqs = df["apt_seq"].astype(str).tolist()
 
     dataset = AptamerDataset(seqs)
@@ -283,13 +281,12 @@ if __name__ == "__main__":
         real_clean = [cut_at_X(s) for s in seqs]
         gc_r, mfe_r, len_r = compute_real_metrics(real_clean)
 
-        f.write(f"[REAL DATA]\n")
+        f.write("[REAL DATA]\n")
         f.write(f"GC: {gc_r:.3f} | MFE: {mfe_r:.2f} | Len: {len_r:.2f}\n\n")
 
         print("Training...")
 
         for epoch in range(200):
-
             tau = max(0.6, 1.0 - epoch * 0.002)
 
             train_step(G, D, loader, opt_g, opt_d, tau)
@@ -299,7 +296,6 @@ if __name__ == "__main__":
             # --------------------
             G.eval()
             with torch.no_grad():
-
                 z = torch.randn(100, NOISE_DIM, device=DEVICE)
                 fake = G(z, tau=tau, hard=True)
 
@@ -321,14 +317,14 @@ if __name__ == "__main__":
 
                 samples = "[SAMPLES]\n" + "\n".join(random.sample(fake_seqs, 5)) + "\n"
 
-                full_log = header + metrics + samples + ("-"*60 + "\n")
+                full_log = header + metrics + samples + ("-" * 60 + "\n")
 
                 # print
                 print(full_log)
 
                 # write file
                 log_epoch(f, full_log)
-    
+
     torch.save(G.state_dict(), "weights/generator_dna.pth")
     torch.save(D.state_dict(), "weights/critic_dna.pth")
     print("Models saved.")

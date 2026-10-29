@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+build/
+dist/
+*.egg-info/
+.eggs/
+*.egg
+
+# Виртуальные окружения
+.venv/
+venv/
+env/
+ENV/
+
+# Кэши линтеров, тестов и покрытия
+.ruff_cache/
+.pytest_cache/
+.mypy_cache/
+.coverage
+.coverage.*
+htmlcov/
+.tox/
+.nox/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Секреты
+.env
+.env.*
+!.env.example
+
+# Редакторы и ОС
+.idea/
+.vscode/
+*.swp
+*~
+.DS_Store
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# Snakemake и логи валидации
+.snakemake/
+logs/
+*.done
+
+# Прогоны молекулярной динамики (траектории, топологии, промежуточные PDB)
+Aptamer-Validation/md_runs/
+
+# Структуры кандидатов и покандидатные результаты докинга.
+# Сводные CSV в этих каталогах остаются в репозитории.
+Aptamer-Validation/docking_candidates/candidate_*/
+Aptamer-Validation/docking_results/*/
+
+# Локальные сторонние инструменты, не часть исходников
+Aptamer-Validation/NSP/
+Aptamer-Validation/resources/
+
+# Резервные копии GROMACS
+\#*#
+*.pdb~
