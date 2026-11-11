@@ -1,9 +1,8 @@
 import numpy as np
-import torch
-from Levenshtein import distance as levenshtein_distance
 import RNA  # from ViennaRNA
-
-from data_preparing import VOCAB, train_seqs
+import torch
+from data_preparing import VOCAB
+from Levenshtein import distance as levenshtein_distance
 
 
 def decode_onehot_batch(onehot_batch, vocab=VOCAB):
@@ -13,10 +12,11 @@ def decode_onehot_batch(onehot_batch, vocab=VOCAB):
     idxs = torch.multinomial(probs, 1).view(B, L)
     seqs = []
     for row in idxs:
-        seq = ''.join(vocab[idx] for idx in row)
-        seq = seq.split('X')  # убираем паддинги
+        seq = "".join(vocab[idx] for idx in row)
+        seq = seq.split("X")  # убираем паддинги
         seqs.append(seq[0])
     return seqs
+
 
 def decode_onehot_batch_visual(onehot_batch, vocab=VOCAB):
     """Преобразует батч one-hot в список строк без PAD."""
@@ -25,7 +25,7 @@ def decode_onehot_batch_visual(onehot_batch, vocab=VOCAB):
     seqs = []
     for i in range(batch_size):
         chars = [vocab[idx] for idx in idxs[i]]
-        seq = ''.join(c for c in chars)
+        seq = "".join(c for c in chars)
         seqs.append(seq)
     return seqs
 
@@ -33,7 +33,7 @@ def decode_onehot_batch_visual(onehot_batch, vocab=VOCAB):
 def gc_content(seq):
     if len(seq) == 0:
         return 0.0
-    return (seq.count('G') + seq.count('C')) / len(seq)
+    return (seq.count("G") + seq.count("C")) / len(seq)
 
 
 def compute_gc_mean(seqs):
@@ -71,4 +71,4 @@ def compute_avg_levenshtein(real_seqs, fake_seqs):
             continue
         d = levenshtein_to_closest(real_seqs, f)
         dists.append(d)
-    return np.mean(dists) if dists else float('nan')
+    return np.mean(dists) if dists else float("nan")

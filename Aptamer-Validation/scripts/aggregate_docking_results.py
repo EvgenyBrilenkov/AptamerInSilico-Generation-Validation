@@ -1,7 +1,7 @@
-import sys
-import os
 import csv
+import sys
 from pathlib import Path
+
 
 def main():
     if len(sys.argv) < 3:
@@ -26,7 +26,7 @@ def main():
             continue
 
         try:
-            with open(path, 'r') as f:
+            with open(path) as f:
                 content = f.read().strip()
                 if not content:
                     continue
@@ -35,11 +35,9 @@ def main():
                 model_name = path.name.replace(".score.txt", "")
                 candidate_name = path.parent.name
 
-                results.append({
-                    "candidate": candidate_name,
-                    "model": model_name,
-                    "docking_score": score
-                })
+                results.append(
+                    {"candidate": candidate_name, "model": model_name, "docking_score": score}
+                )
         except ValueError:
             print(f"Warning: Could not parse score from {path}. Skipping.")
         except Exception as e:
@@ -49,13 +47,14 @@ def main():
 
     print(f"Writing {len(results)} valid results to {output_csv}")
 
-    with open(output_csv, 'w', newline='') as csvfile:
-        fieldnames = ['candidate', 'model', 'docking_score']
+    with open(output_csv, "w", newline="") as csvfile:
+        fieldnames = ["candidate", "model", "docking_score"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         writer.writeheader()
         for row in results:
             writer.writerow(row)
+
 
 if __name__ == "__main__":
     main()
