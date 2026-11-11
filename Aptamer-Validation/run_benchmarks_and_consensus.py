@@ -92,7 +92,8 @@ with open(summary_txt_path, "w") as f:
             continue
 
         f.write(f"--- {model_name} ---\n")
-        f.write(f"Accuracy: {results['accuracy']:.4f}\n\n")
+        f.write(f"Accuracy: {results['accuracy']:.4f}\n")
+        f.write(f"ROC AUC: {float(results.get('roc_auc') or 0.0):.4f}\n\n")
 
         f.write("Classification Report:\n")
         report_df = pd.DataFrame(results["report"]).transpose()
@@ -112,6 +113,7 @@ for model_name, results in all_benchmark_results.items():
         cm = confusion_matrix(results["true_labels"], results["predictions"])
         results_for_json[model_name] = {
             "accuracy": results["accuracy"],
+            "roc_auc": float(results.get("roc_auc") or 0.0),
             "classification_report": results["report"],
             "confusion_matrix": cm.tolist(),
         }
