@@ -1,0 +1,185 @@
+{
+  "dna": {
+    "rows": 2486,
+    "missing_apt": 0,
+    "missing_target": 0,
+    "unique_aptamers": 285,
+    "unique_targets": 335,
+    "unique_pairs": 2486,
+    "duplicated_rows": 0,
+    "pairs_with_both_labels": 0,
+    "label_counts": {
+      "0": 1647,
+      "1": 839
+    },
+    "positive_pairs": 839,
+    "negative_rows_using_unseen_apt_or_target": 966,
+    "apt_len": {
+      "count": 2486.0,
+      "mean": 59.98,
+      "std": 24.64,
+      "min": 15.0,
+      "25%": 39.0,
+      "50%": 69.0,
+      "75%": 80.0,
+      "max": 274.0
+    },
+    "target_len": {
+      "count": 2486.0,
+      "mean": 812.13,
+      "std": 494.97,
+      "min": 14.0,
+      "25%": 214.0,
+      "50%": 1123.0,
+      "75%": 1270.0,
+      "max": 1380.0
+    },
+    "gc": {
+      "count": 2486.0,
+      "mean": 0.542,
+      "std": 0.1,
+      "min": 0.0,
+      "25%": 0.512,
+      "50%": 0.557,
+      "75%": 0.612,
+      "max": 0.75
+    },
+    "apt_longer_than_80": 115,
+    "apt_shorter_than_10": 0,
+    "target_longer_than_1000": 1381,
+    "gc_by_label": {
+      "0": 0.525,
+      "1": 0.574
+    },
+    "apt_len_by_label": {
+      "0": 52.43,
+      "1": 74.81
+    }
+  },
+  "rna": {
+    "rows": 1804,
+    "missing_apt": 0,
+    "missing_target": 0,
+    "unique_aptamers": 286,
+    "unique_targets": 333,
+    "unique_pairs": 1804,
+    "duplicated_rows": 0,
+    "pairs_with_both_labels": 0,
+    "label_counts": {
+      "0": 1618,
+      "1": 186
+    },
+    "positive_pairs": 186,
+    "negative_rows_using_unseen_apt_or_target": 1492,
+    "apt_len": {
+      "count": 1804.0,
+      "mean": 51.23,
+      "std": 21.83,
+      "min": 14.0,
+      "25%": 36.0,
+      "50%": 46.0,
+      "75%": 69.0,
+      "max": 185.0
+    },
+    "target_len": {
+      "count": 1804.0,
+      "mean": 768.6,
+      "std": 488.18,
+      "min": 14.0,
+      "25%": 221.0,
+      "50%": 851.0,
+      "75%": 1258.0,
+      "max": 1380.0
+    },
+    "gc": {
+      "count": 1804.0,
+      "mean": 0.532,
+      "std": 0.088,
+      "min": 0.176,
+      "25%": 0.487,
+      "50%": 0.531,
+      "75%": 0.588,
+      "max": 0.735
+    },
+    "apt_longer_than_80": 179,
+    "apt_shorter_than_10": 0,
+    "target_longer_than_1000": 895,
+    "gc_by_label": {
+      "0": 0.533,
+      "1": 0.526
+    },
+    "apt_len_by_label": {
+      "0": 51.31,
+      "1": 50.56
+    }
+  },
+  "dna_alphabet": {
+    "rows_with_unexpected_chars": 0,
+    "unexpected_chars": []
+  },
+  "rna_alphabet": {
+    "rows_with_unexpected_chars": 42,
+    "unexpected_chars": [
+      "T"
+    ]
+  },
+  "dna_target_alphabet": {
+    "rows_with_unexpected_chars": 0,
+    "unexpected_chars": []
+  },
+  "rna_target_alphabet": {
+    "rows_with_unexpected_chars": 0,
+    "unexpected_chars": []
+  },
+  "dna_contains_U": 0,
+  "rna_contains_T": 42,
+  "candidates": {
+    "file_lines": 31,
+    "junk_first_line": "cat candidates_for_docking.csv",
+    "rows": 29,
+    "unique_aptamers": 28,
+    "unique_targets": 12,
+    "unique_target_names": [
+      "E.Coli_rho_factor",
+      "EFTuGDP",
+      "Envelope_glycoprotein_GP120",
+      "HIV-1_Rev_binding_protein",
+      "Human_toll-like_receptor_3_ectodomain",
+      "RB69_RegA",
+      "TetR",
+      "angiopoietin_2",
+      "eIF4G",
+      "hnps_PLA2"
+    ],
+    "true_label_counts": {
+      "0": 2,
+      "1": 27
+    },
+    "proba_min": {
+      "proba_1_apipred": 1.0,
+      "proba_1_aptatrans": 1.0,
+      "proba_1_aptanet": 0.6452
+    }
+  },
+  "docking": {
+    "rows": 123,
+    "unique_candidates": 25,
+    "models_per_candidate": {
+      "count": 25.0,
+      "mean": 4.92,
+      "std": 1.35,
+      "min": 3.0,
+      "25%": 4.0,
+      "50%": 5.0,
+      "75%": 5.0,
+      "max": 9.0
+    },
+    "score_min": -1246.21,
+    "score_max": -244.95,
+    "score_median": -396.27,
+    "best_per_candidate_median": -424.95,
+    "candidates_best_le_minus_1000": 3
+  },
+  "candidate_aptamers_in_dna_train": 0,
+  "candidate_aptamers_in_rna_train": 19
+}
