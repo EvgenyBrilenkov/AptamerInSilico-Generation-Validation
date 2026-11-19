@@ -1,0 +1,483 @@
+{
+  "dna": {
+    "rows": 2486,
+    "missing_apt": 0,
+    "missing_target": 0,
+    "unique_aptamers": 285,
+    "unique_targets": 335,
+    "unique_pairs": 2486,
+    "duplicated_rows": 0,
+    "pairs_with_both_labels": 0,
+    "label_counts": {
+      "0": 1647,
+      "1": 839
+    },
+    "positive_pairs": 839,
+    "negative_rows_using_unseen_apt_or_target": 966,
+    "apt_len": {
+      "count": 2486.0,
+      "mean": 59.98,
+      "std": 24.64,
+      "min": 15.0,
+      "25%": 39.0,
+      "50%": 69.0,
+      "75%": 80.0,
+      "max": 274.0
+    },
+    "target_len": {
+      "count": 2486.0,
+      "mean": 812.13,
+      "std": 494.97,
+      "min": 14.0,
+      "25%": 214.0,
+      "50%": 1123.0,
+      "75%": 1270.0,
+      "max": 1380.0
+    },
+    "gc": {
+      "count": 2486.0,
+      "mean": 0.542,
+      "std": 0.1,
+      "min": 0.0,
+      "25%": 0.512,
+      "50%": 0.557,
+      "75%": 0.612,
+      "max": 0.75
+    },
+    "apt_longer_than_80": 115,
+    "apt_shorter_than_10": 0,
+    "target_longer_than_1000": 1381,
+    "gc_by_label": {
+      "0": 0.525,
+      "1": 0.574
+    },
+    "apt_len_by_label": {
+      "0": 52.43,
+      "1": 74.81
+    }
+  },
+  "rna": {
+    "rows": 1804,
+    "missing_apt": 0,
+    "missing_target": 0,
+    "unique_aptamers": 286,
+    "unique_targets": 333,
+    "unique_pairs": 1804,
+    "duplicated_rows": 0,
+    "pairs_with_both_labels": 0,
+    "label_counts": {
+      "0": 1618,
+      "1": 186
+    },
+    "positive_pairs": 186,
+    "negative_rows_using_unseen_apt_or_target": 1492,
+    "apt_len": {
+      "count": 1804.0,
+      "mean": 51.23,
+      "std": 21.83,
+      "min": 14.0,
+      "25%": 36.0,
+      "50%": 46.0,
+      "75%": 69.0,
+      "max": 185.0
+    },
+    "target_len": {
+      "count": 1804.0,
+      "mean": 768.6,
+      "std": 488.18,
+      "min": 14.0,
+      "25%": 221.0,
+      "50%": 851.0,
+      "75%": 1258.0,
+      "max": 1380.0
+    },
+    "gc": {
+      "count": 1804.0,
+      "mean": 0.532,
+      "std": 0.088,
+      "min": 0.176,
+      "25%": 0.487,
+      "50%": 0.531,
+      "75%": 0.588,
+      "max": 0.735
+    },
+    "apt_longer_than_80": 179,
+    "apt_shorter_than_10": 0,
+    "target_longer_than_1000": 895,
+    "gc_by_label": {
+      "0": 0.533,
+      "1": 0.526
+    },
+    "apt_len_by_label": {
+      "0": 51.31,
+      "1": 50.56
+    }
+  },
+  "separation": {
+    "dna": {
+      "rows_auc_apt_len": 0.772,
+      "rows_auc_gc": 0.685,
+      "hard_rows": 2252,
+      "hard_targets": 285,
+      "hard_positive_rate": 0.373,
+      "hard_auc_apt_len": 0.776,
+      "hard_auc_gc": 0.685,
+      "unique_apt_auc_len": 0.502,
+      "unique_apt_auc_gc": 0.426
+    },
+    "rna": {
+      "rows_auc_apt_len": 0.493,
+      "rows_auc_gc": 0.475,
+      "hard_rows": 384,
+      "hard_targets": 42,
+      "hard_positive_rate": 0.484,
+      "hard_auc_apt_len": 0.511,
+      "hard_auc_gc": 0.452,
+      "unique_apt_auc_len": 0.473,
+      "unique_apt_auc_gc": 0.418
+    }
+  },
+  "protein_only": {
+    "dna": {
+      "auc_protein_loo_rate": 0.424,
+      "hard_auc_protein_loo_rate": 0.333
+    },
+    "rna": {
+      "auc_protein_loo_rate": 0.927,
+      "hard_auc_protein_loo_rate": 0.617
+    }
+  },
+  "negative_ease": {
+    "dna": {
+      "positives": {
+        "rows": 839,
+        "mean_apt_len": 74.81,
+        "mean_gc": 0.574
+      },
+      "negatives_on_positive_targets": {
+        "rows": 1413,
+        "mean_apt_len": 52.2,
+        "mean_gc": 0.526
+      },
+      "negatives_on_targets_without_positives": {
+        "rows": 234,
+        "mean_apt_len": 53.79,
+        "mean_gc": 0.523
+      },
+      "negative_rows_from_never_positive_aptamers": 837
+    },
+    "rna": {
+      "positives": {
+        "rows": 186,
+        "mean_apt_len": 50.56,
+        "mean_gc": 0.526
+      },
+      "negatives_on_positive_targets": {
+        "rows": 198,
+        "mean_apt_len": 50.03,
+        "mean_gc": 0.538
+      },
+      "negatives_on_targets_without_positives": {
+        "rows": 1420,
+        "mean_apt_len": 51.49,
+        "mean_gc": 0.532
+      },
+      "negative_rows_from_never_positive_aptamers": 593
+    }
+  },
+  "aptamer_pools": {
+    "dna": {
+      "unique": 285,
+      "ever_positive": {
+        "n": 147,
+        "mean_len": 54.3,
+        "median_len": 44.0,
+        "mean_gc": 0.511,
+        "share_of_generator": 0.516
+      },
+      "never_positive": {
+        "n": 138,
+        "mean_len": 51.26,
+        "median_len": 40.0,
+        "mean_gc": 0.54,
+        "share_of_generator": 0.484,
+        "rows": 837
+      }
+    },
+    "rna": {
+      "unique": 286,
+      "ever_positive": {
+        "n": 186,
+        "mean_len": 50.56,
+        "median_len": 46.5,
+        "mean_gc": 0.526,
+        "share_of_generator": 0.65
+      },
+      "never_positive": {
+        "n": 100,
+        "mean_len": 53.15,
+        "median_len": 47.0,
+        "mean_gc": 0.551,
+        "share_of_generator": 0.35,
+        "rows": 593
+      }
+    }
+  },
+  "generator_pools": {
+    "dna": {
+      "unique": 285,
+      "ever_positive": {
+        "n": 147,
+        "mean_len": 54.3,
+        "median_len": 44.0,
+        "mean_gc": 0.511,
+        "share_of_generator": 0.516
+      },
+      "never_positive": {
+        "n": 138,
+        "mean_len": 51.26,
+        "median_len": 40.0,
+        "mean_gc": 0.54,
+        "share_of_generator": 0.484,
+        "rows": 837
+      },
+      "dropped_with_U": 0
+    },
+    "rna": {
+      "unique": 280,
+      "ever_positive": {
+        "n": 185,
+        "mean_len": 50.34,
+        "median_len": 46.0,
+        "mean_gc": 0.526,
+        "share_of_generator": 0.661
+      },
+      "never_positive": {
+        "n": 95,
+        "mean_len": 52.47,
+        "median_len": 45.0,
+        "mean_gc": 0.549,
+        "share_of_generator": 0.339,
+        "rows": 562
+      },
+      "dropped_with_T": 6
+    }
+  },
+  "redundancy": {
+    "dna": {
+      "kmer": 3,
+      "cosine_threshold": 0.9,
+      "unique_aptamers": 285,
+      "median_nearest_cosine": 0.771,
+      "pairs_at_or_above_threshold": 57,
+      "clusters_of_at_least_2": 17,
+      "largest_cluster": 10,
+      "aptamers_in_those_clusters": 49,
+      "kmer_cosine_ever_vs_never_positive": 0.969
+    },
+    "rna": {
+      "kmer": 3,
+      "cosine_threshold": 0.9,
+      "unique_aptamers": 286,
+      "median_nearest_cosine": 0.745,
+      "pairs_at_or_above_threshold": 45,
+      "clusters_of_at_least_2": 15,
+      "largest_cluster": 6,
+      "aptamers_in_those_clusters": 47,
+      "kmer_cosine_ever_vs_never_positive": 0.972
+    }
+  },
+  "random_baseline": {
+    "dna": {
+      "n": 285,
+      "real_mean_gc": 0.525,
+      "random_mean_gc": 0.525,
+      "real_mean_len": 52.83,
+      "random_mean_len": 52.83,
+      "random_mean_min_levenshtein": 24.59,
+      "random_median_min_levenshtein": 19.0,
+      "note": "MFE не считался: в этом прогоне ViennaRNA не вызывался"
+    },
+    "rna": {
+      "n": 280,
+      "real_mean_gc": 0.534,
+      "random_mean_gc": 0.534,
+      "real_mean_len": 51.06,
+      "random_mean_len": 51.06,
+      "random_mean_min_levenshtein": 23.7,
+      "random_median_min_levenshtein": 20.0,
+      "note": "MFE не считался: в этом прогоне ViennaRNA не вызывался"
+    }
+  },
+  "shortlist_novelty": {
+    "rows": {
+      "both_seen": 18,
+      "new_target": 1,
+      "new_aptamer": 8,
+      "both_new": 2
+    },
+    "true_label_by_bucket": {
+      "both_new": {
+        "1": 2
+      },
+      "both_seen": {
+        "0": 2,
+        "1": 16
+      },
+      "new_aptamer": {
+        "1": 8
+      },
+      "new_target": {
+        "1": 1
+      }
+    }
+  },
+  "top5_shortlist": {
+    "named_targets": 10,
+    "rows_without_target_name": 2,
+    "targets_with_more_than_5": 2,
+    "mean_jaccard_top5": 0.917,
+    "per_target": [
+      {
+        "target_name": "E.Coli_rho_factor",
+        "candidates": 7,
+        "true_positives": 7,
+        "with_docking": 5,
+        "top5_jaccard_aptanet_vs_docking": 0.667
+      },
+      {
+        "target_name": "EFTuGDP",
+        "candidates": 1,
+        "true_positives": 1,
+        "with_docking": 0,
+        "top5_jaccard_aptanet_vs_docking": null
+      },
+      {
+        "target_name": "Envelope_glycoprotein_GP120",
+        "candidates": 6,
+        "true_positives": 6,
+        "with_docking": 6,
+        "top5_jaccard_aptanet_vs_docking": 0.667
+      },
+      {
+        "target_name": "HIV-1_Rev_binding_protein",
+        "candidates": 1,
+        "true_positives": 1,
+        "with_docking": 1,
+        "top5_jaccard_aptanet_vs_docking": 1.0
+      },
+      {
+        "target_name": "Human_toll-like_receptor_3_ectodomain",
+        "candidates": 1,
+        "true_positives": 1,
+        "with_docking": 1,
+        "top5_jaccard_aptanet_vs_docking": 1.0
+      },
+      {
+        "target_name": "RB69_RegA",
+        "candidates": 1,
+        "true_positives": 1,
+        "with_docking": 0,
+        "top5_jaccard_aptanet_vs_docking": null
+      },
+      {
+        "target_name": "TetR",
+        "candidates": 3,
+        "true_positives": 3,
+        "with_docking": 3,
+        "top5_jaccard_aptanet_vs_docking": 1.0
+      },
+      {
+        "target_name": "angiopoietin_2",
+        "candidates": 1,
+        "true_positives": 1,
+        "with_docking": 1,
+        "top5_jaccard_aptanet_vs_docking": 1.0
+      },
+      {
+        "target_name": "eIF4G",
+        "candidates": 3,
+        "true_positives": 3,
+        "with_docking": 3,
+        "top5_jaccard_aptanet_vs_docking": 1.0
+      },
+      {
+        "target_name": "hnps_PLA2",
+        "candidates": 3,
+        "true_positives": 3,
+        "with_docking": 3,
+        "top5_jaccard_aptanet_vs_docking": 1.0
+      }
+    ],
+    "why_not_precision_at_5": "В файле почти все true_label равны 1, а пары, которые консенсус отбросил, сюда не попали"
+  },
+  "dna_alphabet": {
+    "rows_with_unexpected_chars": 0,
+    "unexpected_chars": []
+  },
+  "rna_alphabet": {
+    "rows_with_unexpected_chars": 42,
+    "unexpected_chars": [
+      "T"
+    ]
+  },
+  "dna_target_alphabet": {
+    "rows_with_unexpected_chars": 0,
+    "unexpected_chars": []
+  },
+  "rna_target_alphabet": {
+    "rows_with_unexpected_chars": 0,
+    "unexpected_chars": []
+  },
+  "dna_contains_U": 0,
+  "rna_contains_T": 42,
+  "candidates": {
+    "file_lines": 31,
+    "junk_first_line": "cat candidates_for_docking.csv",
+    "rows": 29,
+    "unique_aptamers": 28,
+    "unique_targets": 12,
+    "unique_target_names": [
+      "E.Coli_rho_factor",
+      "EFTuGDP",
+      "Envelope_glycoprotein_GP120",
+      "HIV-1_Rev_binding_protein",
+      "Human_toll-like_receptor_3_ectodomain",
+      "RB69_RegA",
+      "TetR",
+      "angiopoietin_2",
+      "eIF4G",
+      "hnps_PLA2"
+    ],
+    "true_label_counts": {
+      "0": 2,
+      "1": 27
+    },
+    "proba_min": {
+      "proba_1_apipred": 1.0,
+      "proba_1_aptatrans": 1.0,
+      "proba_1_aptanet": 0.6452
+    }
+  },
+  "docking": {
+    "rows": 123,
+    "unique_candidates": 25,
+    "models_per_candidate": {
+      "count": 25.0,
+      "mean": 4.92,
+      "std": 1.35,
+      "min": 3.0,
+      "25%": 4.0,
+      "50%": 5.0,
+      "75%": 5.0,
+      "max": 9.0
+    },
+    "score_min": -1246.21,
+    "score_max": -244.95,
+    "score_median": -396.27,
+    "best_per_candidate_median": -424.95,
+    "candidates_best_le_minus_1000": 3
+  },
+  "candidate_aptamers_in_dna_train": 0,
+  "candidate_aptamers_in_rna_train": 19
+}
